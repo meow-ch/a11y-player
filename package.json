@@ -1,0 +1,62 @@
+{
+  "name": "a11y-player",
+  "version": "0.1.5",
+  "description": "An accessible DAISY format audiobook player for React applications",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "npm run build -- --watch & vite",
+    "build": "tsc && vite build",
+    "prepare": "npm run build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-router-dom": "^6.0.0"
+  },
+  "dependencies": {
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3",
+    "sass": "^1.87.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4",
+    "vite-plugin-dts": "^4.5.3"
+  },
+  "keywords": [
+    "daisy",
+    "audiobook",
+    "accessibility",
+    "react",
+    "player",
+    "a11y"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/a11y-player"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/a11y-player/issues"
+  },
+  "homepage": "https://github.com/yourusername/a11y-player#readme"
+}

@@ -1,0 +1,114 @@
+@use '../DaisyPlayer/index.scss';
+
+.AudioPlayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__Title {
+    width: 100%;
+    text-align: center;
+    margin: var(--a11y-player-spacing-sm) 0 var(--a11y-player-spacing-md);
+    padding: 0 var(--a11y-player-spacing-md);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__Audio {
+    display: none; // Hide the default audio player UI
+  }
+
+  &__Controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: var(--a11y-player-spacing-sm);
+    margin: var(--a11y-player-spacing-sm) 0;
+    flex-direction: column;
+  }
+
+  &__ProgressContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--a11y-player-spacing-xs);
+    margin: var(--a11y-player-spacing-md) 0 var(--a11y-player-spacing-sm);
+  }
+
+  &__ControlsRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: var(--a11y-player-spacing-md);
+
+    &--speed {
+      margin-top: var(--a11y-player-spacing-sm);
+
+      & .AudioPlayer__Control {
+        margin: 0 var(--a11y-player-spacing-sm);
+      }
+    }
+  }
+
+  &__SpeedText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+
+    span {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    strong {
+      font-size: 0.9rem;
+    }
+  }
+
+  &__Control {
+    padding: var(--a11y-player-spacing-sm);
+    background-color: transparent;
+    border: none;
+    border-radius: var(--a11y-player-radius-md);
+    cursor: pointer;
+    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--play-pause {
+      font-size: 1.75rem;
+      width: 50px;
+      height: 50px;
+      border-radius: var(--a11y-player-radius-full);
+      background-color: var(--a11y-player-bg-tertiary);
+    }
+
+    &--mirrored {
+      transform: scaleX(-1); // Flips the icon horizontally
+    }
+  }
+
+  &__Progress {
+    width: 100%;
+    height: 8px;
+    appearance: none;
+    border-radius: var(--a11y-player-radius-full);
+    overflow: hidden;
+  }
+
+  &__Time {
+    font-size: 0.8rem;
+    align-self: flex-end;
+    margin-right: var(--a11y-player-spacing-sm);
+  }
+}
