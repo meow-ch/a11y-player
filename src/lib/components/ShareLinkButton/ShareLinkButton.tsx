@@ -1,13 +1,20 @@
 import { FC, useEffect, useState } from 'react';
 import { FaShareAlt } from 'react-icons/fa';
+import { createTranslator } from '../../utils/i18n';
 import "./index.scss";
 
 interface ShareLinkButtonProps {
   dirUrl: string;
   path: string | null;
+  language?: string;
 }
 
-const ShareLinkButton: FC<ShareLinkButtonProps> = ({ dirUrl, path }) => {
+const ShareLinkButton: FC<ShareLinkButtonProps> = ({
+  dirUrl,
+  path,
+  language = 'en'
+}) => {
+  const t = createTranslator(language);
   const [copySuccess, setCopySuccess] = useState<boolean | null>(null);
   const [copiedPath, setCopiedPath] = useState<string | null>(null);
 
@@ -17,9 +24,19 @@ const ShareLinkButton: FC<ShareLinkButtonProps> = ({ dirUrl, path }) => {
       await navigator.clipboard.writeText(urlToCopy);
       setCopySuccess(true);
       setCopiedPath(path);
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setCopySuccess(null);
+      }, 3000);
     } catch (error) {
       setCopySuccess(false);
       console.error('Failed to copy text: ', error);
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setCopySuccess(null);
+      }, 3000);
     }
   };
 
@@ -30,17 +47,27 @@ const ShareLinkButton: FC<ShareLinkButtonProps> = ({ dirUrl, path }) => {
     }
   }, [path]);
 
+  const buttonClassName = `ShareButton ${
+    copySuccess === true
+      ? 'ShareButton--success'
+      : copySuccess === false
+        ? 'ShareButton--error'
+        : ''
+  }`;
+
   return (
     <button
       onClick={handleClick}
       disabled={path === null}
-      className="ShareButton"
+      className={buttonClassName}
+      aria-label={t('shareLink')}
+      title={t('shareLink')}
     >
       <span>{
         copySuccess === true
-          ? 'Link copied!'
+          ? t('linkCopied')
           : copySuccess === false
-            ? 'Failed to copy the link.'
+            ? t('failedToCopy')
             : <FaShareAlt />
         }
       </span>

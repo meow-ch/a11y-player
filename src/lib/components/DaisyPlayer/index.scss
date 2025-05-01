@@ -5,46 +5,46 @@
   --a11y-player-primary: #4a6da7;
   --a11y-player-primary-light: #6989c3;
   --a11y-player-primary-dark: #3a5d97;
-  
+
   // Background colors
   --a11y-player-bg-main: #ffffff;
   --a11y-player-bg-secondary: #f5f7fa;
   --a11y-player-bg-tertiary: #edf0f5;
-  
+
   // Text colors
   --a11y-player-text-primary: #2c3e50;
   --a11y-player-text-secondary: #5d6b7b;
   --a11y-player-text-tertiary: #8896a6;
-  
+
   // Accent colors
   --a11y-player-accent: #e74c3c;
-  
+
   // UI element colors
   --a11y-player-border: #dde4ee;
   --a11y-player-shadow: rgba(0, 0, 0, 0.08);
-  
+
   // Progress colors
   --a11y-player-progress-bg: #dde4ee;
   --a11y-player-progress-fill: var(--a11y-player-primary);
-  
+
   // Spacing
   --a11y-player-spacing-xs: 0.25rem;
   --a11y-player-spacing-sm: 0.5rem;
   --a11y-player-spacing-md: 1rem;
   --a11y-player-spacing-lg: 1.5rem;
   --a11y-player-spacing-xl: 2rem;
-  
+
   // Border radius
   --a11y-player-radius-sm: 0.25rem;
   --a11y-player-radius-md: 0.5rem;
   --a11y-player-radius-lg: 1rem;
   --a11y-player-radius-full: 9999px;
-  
+
   // Transitions
   --a11y-player-transition-fast: 150ms ease;
   --a11y-player-transition-normal: 250ms ease;
   --a11y-player-transition-slow: 350ms ease;
-  
+
   // Dark mode overrides (applied when .dark-mode class is present)
   &.dark-mode {
     --a11y-player-bg-main: #1a1f2c;
@@ -73,52 +73,52 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     transition: all var(--a11y-player-transition-normal);
     overflow: hidden;
-    
+
     // Subtle inner border for depth
     border: 1px solid var(--a11y-player-border);
-    
+
     // Responsive adjustments
     @media (max-width: 768px) {
       padding: var(--a11y-player-spacing-md);
       border-radius: var(--a11y-player-radius-md);
     }
-    
+
     // Subtle hover effect for the entire container
     &:hover {
       box-shadow: 0 6px 28px var(--a11y-player-shadow);
     }
-    
+
     // Typography
     h1, h2, h3, h4, h5, h6 {
       margin: 0;
       line-height: 1.2;
       letter-spacing: -0.01em;
     }
-    
+
     h1 {
       font-size: 1.75rem;
       font-weight: 600;
       margin-bottom: var(--a11y-player-spacing-sm);
       color: var(--a11y-player-text-primary);
-      
+
       @media (max-width: 768px) {
         font-size: 1.5rem;
       }
     }
-    
+
     h3 {
       font-size: 1.1rem;
       font-weight: 500;
       margin-bottom: var(--a11y-player-spacing-lg);
       color: var(--a11y-player-text-secondary);
-      
+
       @media (max-width: 768px) {
         font-size: 1rem;
         margin-bottom: var(--a11y-player-spacing-md);
       }
     }
   }
-  
+
   // Header section with buttons
   &__OtherButtons {
     display: flex;
@@ -126,12 +126,12 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--a11y-player-spacing-md);
-    
+
     // Subtle separator below the header
     padding-bottom: var(--a11y-player-spacing-sm);
     border-bottom: 1px solid var(--a11y-player-border);
   }
-  
+
   // Toggle sections view button
   &__ToggleSectionsViewButton {
     background-color: transparent;
@@ -145,20 +145,20 @@
     align-items: center;
     justify-content: center;
     transition: all var(--a11y-player-transition-fast);
-    
+
     // Subtle background on hover
     &:hover, &:focus {
       background-color: var(--a11y-player-bg-tertiary);
       color: var(--a11y-player-primary);
       outline: none;
     }
-    
+
     // Pressed state
     &:active {
       transform: scale(0.95);
     }
   }
-  
+
   // Player container
   &__PlayerContainer {
     margin-top: var(--a11y-player-spacing-md);
@@ -166,7 +166,7 @@
     border-radius: var(--a11y-player-radius-md);
     overflow: hidden;
     transition: all var(--a11y-player-transition-normal);
-    
+
     // Subtle inner shadow for depth
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
   }
@@ -176,59 +176,59 @@
 .AudioPlayer {
   background-color: transparent;
   padding: var(--a11y-player-spacing-md);
-  
+
   &__Title {
     color: var(--a11y-player-text-primary);
     font-weight: 500;
     font-size: 1.1rem;
   }
-  
+
   &__Control {
     color: var(--a11y-player-text-primary);
     transition: all var(--a11y-player-transition-fast);
-    
+
     &:hover, &:focus {
       color: var(--a11y-player-primary);
       background-color: var(--a11y-player-bg-tertiary);
     }
-    
+
     &--play-pause {
       color: var(--a11y-player-primary);
-      
+
       &:hover, &:focus {
         color: var(--a11y-player-primary-dark);
       }
     }
   }
-  
+
   &__Progress {
     height: 8px;
     border-radius: var(--a11y-player-radius-full);
     background-color: var(--a11y-player-progress-bg);
     overflow: hidden;
-    
+
     &::-webkit-progress-bar {
       background-color: var(--a11y-player-progress-bg);
     }
-    
+
     &::-webkit-progress-value {
       background-color: var(--a11y-player-progress-fill);
       transition: width var(--a11y-player-transition-fast);
     }
-    
+
     &::-moz-progress-bar {
       background-color: var(--a11y-player-progress-fill);
     }
   }
-  
+
   &__Time {
     color: var(--a11y-player-text-secondary);
     font-size: 0.875rem;
   }
-  
+
   &__SpeedText {
     color: var(--a11y-player-text-secondary);
-    
+
     strong {
       color: var(--a11y-player-primary);
     }
@@ -242,17 +242,17 @@
   padding: var(--a11y-player-spacing-sm);
   border-radius: var(--a11y-player-radius-full);
   transition: all var(--a11y-player-transition-fast);
-  
+
   &:hover, &:focus {
     background-color: var(--a11y-player-bg-tertiary);
     color: var(--a11y-player-primary);
     outline: none;
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
-  
+
   & > span > svg {
     font-size: 1.25rem;
   }
@@ -263,7 +263,7 @@
   &__Container {
     background-color: var(--a11y-player-bg-main);
     box-shadow: 0 4px 24px var(--a11y-player-shadow);
-    
+
     h2 {
       color: var(--a11y-player-text-primary);
       margin: var(--a11y-player-spacing-md) 0;
@@ -271,31 +271,31 @@
       font-weight: 600;
     }
   }
-  
+
   &__BackArrow {
     color: var(--a11y-player-text-secondary);
     font-size: 1.5rem;
     padding: var(--a11y-player-spacing-sm);
     border-radius: var(--a11y-player-radius-full);
     transition: all var(--a11y-player-transition-fast);
-    
+
     &:hover {
       background-color: var(--a11y-player-bg-tertiary);
       color: var(--a11y-player-primary);
     }
   }
-  
+
   &__Button {
     background-color: var(--a11y-player-bg-secondary);
     color: var(--a11y-player-text-primary);
     border: 1px solid var(--a11y-player-border);
     transition: all var(--a11y-player-transition-fast);
-    
+
     &:hover {
       border-color: var(--a11y-player-primary-light);
       background-color: var(--a11y-player-bg-tertiary);
     }
-    
+
     &--selected {
       background-color: var(--a11y-player-primary-light);
       color: white;

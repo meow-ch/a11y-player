@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaPlay, FaPause, FaStepBackward, FaStepForward, FaPlus, FaMinus } from 'react-icons/fa';
-import "./index.scss";
 import { TbReload } from 'react-icons/tb';
+import { createTranslator } from '../../utils/i18n';
+import "./index.scss";
 
 interface ComponentProps {
   title: string;
@@ -14,6 +15,7 @@ interface ComponentProps {
   playbackRate: number;
   togglePlayPause: () => void;
   isDisplayed?: boolean;
+  language?: string;
 }
 
 const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
@@ -26,8 +28,10 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
   togglePlayPause,
   playbackRate,
   setPlaybackRate,
-  isDisplayed = true
+  isDisplayed = true,
+  language = 'en'
 }) => {
+  const t = createTranslator(language);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
   }, [isDisplayed]);
 
   return (
-    <div className="AudioPlayer" role="region" aria-label="Audio Player">
+    <div className="AudioPlayer" role="region" aria-label={t('audioPlayer')}>
       <audio ref={audioRef} aria-label={title} preload="metadata" className="AudioPlayer__Audio" />
       <h2 className="AudioPlayer__Title">{title}</h2>
       <div className="AudioPlayer__Controls">
@@ -88,22 +92,23 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
           <button
             className="AudioPlayer__Control"
             onClick={() => moveToPrevNextSection("prev")}
-            aria-label="Previous Section"
+            aria-label={t('previousSection')}
           >
             <FaStepBackward />
           </button>
           <button
             className="AudioPlayer__Control"
             onClick={() => moveToPrevNextSection("next")}
-            aria-label="Next Section"
+            aria-label={t('nextSection')}
           >
             <FaStepForward />
           </button>
         </div>
         <div className="AudioPlayer__ControlsRow">
-          <button className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
+          <button 
+            className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
             onClick={togglePlayPause}
-            aria-label={playing ? 'Pause' : 'Play'}
+            aria-label={playing ? t('pause') : t('play')}
           >
             {playing ? <FaPause/> : <FaPlay /> }
           </button>
@@ -112,14 +117,14 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
           <button
             className="AudioPlayer__Control AudioPlayer__Control--mirrored"
             onClick={() => moveHeadAcrossBy(-30)}
-            aria-label="Backward 30 Seconds"
+            aria-label={t('backward30Seconds')}
           >
             <TbReload />
           </button>
           <button
             className="AudioPlayer__Control"
             onClick={() => moveHeadAcrossBy(30)}
-            aria-label="Forward 30 Seconds"
+            aria-label={t('forward30Seconds')}
           >
             <TbReload />
           </button>
@@ -129,23 +134,23 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
           aria-valuemin={0.5}
           aria-valuemax={3}
           aria-valuenow={playbackRate}
-          aria-valuetext={`Playback speed ${playbackRate} times`}
+          aria-valuetext={`${t('speed')} ${playbackRate}`}
         >
           <button
             className="AudioPlayer__Control"
             onClick={() => setPlaybackRate(playbackRate - 0.25)}
-            aria-label={`Decrease playback rate to ${playbackRate - 0.25} times`}
+            aria-label={`${t('decreasePlaybackRate')} ${playbackRate - 0.25}`}
           >
             <FaMinus />
           </button>
           <div className="AudioPlayer__SpeedText">
-            <span>Speed</span>
+            <span>{t('speed')}</span>
             <strong>{playbackRate} x</strong>
           </div>
           <button
             className="AudioPlayer__Control"
             onClick={() => setPlaybackRate(playbackRate + 0.25)}
-            aria-label={`Increase playback rate to ${playbackRate + 0.25} times`}
+            aria-label={`${t('increasePlaybackRate')} ${playbackRate + 0.25}`}
           >
             <FaPlus />
           </button>

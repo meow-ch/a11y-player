@@ -5,6 +5,7 @@ import useSectionData from '../../hooks/useSectionData';
 import { FlatSection, flatFindBySmil } from '../../utils/sections';
 import ShareLinkButton from '../ShareLinkButton/ShareLinkButton';
 import AccessibleAudioPlayer from '../AccessibleAudioPlayer/AccessibleAudioPlayer';
+import { createTranslator } from '../../utils/i18n';
 import "./index.scss";
 import { FaList } from 'react-icons/fa';
 
@@ -13,6 +14,7 @@ export type ComponentProps = {
   appUrl: string;
   initialBookmark?: string;
   className?: string;
+  language?: string;
 };
 
 const DaisyPlayer: React.FC<ComponentProps> = ({
@@ -20,7 +22,9 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
   appUrl,
   initialBookmark,
   className = '',
+  language = 'en'
 }) => {
+  const t = createTranslator(language);
   const { sectionsHolder, bookInfo } = useSectionData(dirUrl);
   const {
     audioRef,
@@ -98,30 +102,35 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
   return (
     <div className={`DaisyPlayer__Container ${className}`}>
       <div className="DaisyPlayer__OtherButtons">
-        <ShareLinkButton dirUrl={appUrl} path={lastKnownBookmark} />
+        <ShareLinkButton
+          dirUrl={appUrl}
+          path={lastKnownBookmark}
+          language={language}
+        />
         <button
           className="DaisyPlayer__ToggleSectionsViewButton"
           onClick={toggleView}
-          aria-label="Toggle sections view"
-          title="Toggle sections view"
+          aria-label={t('toggleSectionsView')}
+          title={t('toggleSectionsView')}
         >
           <FaList />
         </button>
       </div>
-      <h1>{bookInfo?.title || "Daisy book player"}</h1>
-      <h3>{bookInfo?.author || "Unknown author"}</h3>
+      <h1>{bookInfo?.title || t('defaultBookTitle')}</h1>
+      <h3>{bookInfo?.author || t('unknownAuthor')}</h3>
       <div className="DaisyPlayer__PlayerContainer">
         <AccessibleAudioPlayer
           setPlaybackRate={setPlaybackRate}
           playbackRate={playbackRate}
           moveToPrevNextSection={moveToPrevNextSection}
           audioRef={audioRef}
-          title={currentSection?.title || "No title"}
+          title={currentSection?.title || t('noTitle')}
           playing={playing}
           moveHeadAcrossBy={moveHeadAcrossBy}
           currentTime={currentTime}
           togglePlayPause={togglePlayPause}
           isDisplayed={!playerKeyBindingsPrevented}
+          language={language}
         />
       </div>
       <SectionList
@@ -130,6 +139,7 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
         sectionsHolder={sectionsHolder}
         onSectionClick={handleSectionClick}
         currentSection={currentSection}
+        language={language}
       />
     </div>
   );

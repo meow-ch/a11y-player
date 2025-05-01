@@ -6,6 +6,7 @@ export { default as DaisyPlayerWithRouter } from './components/DaisyPlayerWithRo
 export type { Section, FlatSection, SectionsHolder } from './utils/sections';
 export type { ComponentProps as DaisyPlayerProps } from './components/DaisyPlayer/DaisyPlayer';
 export type { ComponentProps as DaisyPlayerWithRouterProps } from './components/DaisyPlayerWithRouter/DaisyPlayerWithRouter';
+export type { SupportedLanguage, TranslationKey, Translations } from './utils/i18n';
 
 // Export utility functions
 export {
@@ -17,6 +18,11 @@ export {
   flatGetPrev,
   flatFindBySmil
 } from './utils/sections';
+
+export {
+  getTranslations,
+  createTranslator
+} from './utils/i18n';
 
 // Import all component styles
 import './components/DaisyPlayer/index.scss';

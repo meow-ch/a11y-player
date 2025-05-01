@@ -9,10 +9,16 @@ export interface ComponentProps {
   appUrl: string;
   /** URL parameter name to use for the bookmark (default: "bookmark") */
   bookmarkParam?: string;
+  /** Language code (2 letters) for UI translations (default: "en") */
+  language?: string;
+  /** Custom class name for the container */
+  className?: string;
 }
 
 const DaisyPlayerWithRouter: React.FC<ComponentProps> = ({
   bookmarkParam = 'bookmark',
+  language = 'en',
+  className = '',
   ...forwarded
 }) => {
   // Get the bookmark from URL parameters
@@ -22,6 +28,8 @@ const DaisyPlayerWithRouter: React.FC<ComponentProps> = ({
   return (
     <DaisyPlayer
       initialBookmark={urlBookmark}
+      language={language}
+      className={className}
       {...forwarded}
     />
   );

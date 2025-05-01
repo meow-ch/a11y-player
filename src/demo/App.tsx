@@ -15,6 +15,7 @@ function App() {
           path={`/:${bookmarkRouteParamName}?`}
           element={
             <DaisyPlayerWithRouter
+              language='fr'
               dirUrl={dirUrl}
               appUrl={appUrl}
               bookmarkParam={bookmarkRouteParamName}
