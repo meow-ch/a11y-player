@@ -107,7 +107,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
               <TbReload />
             </button>
           </div>
-          <div className="AudioPlayer__ControlsColumn">
+          <div className="AudioPlayer__ControlsColumn AudioPlayer__ControlsColumn--play">
             <button
               className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
               onClick={togglePlayPause}
