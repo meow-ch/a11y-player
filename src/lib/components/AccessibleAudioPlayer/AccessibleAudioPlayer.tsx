@@ -129,12 +129,10 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
             <TbReload />
           </button>
         </div>
-        <div className="AudioPlayer__ControlsRow AudioPlayer__ControlsRow--speed"
-          role="slider"
-          aria-valuemin={0.5}
-          aria-valuemax={3}
-          aria-valuenow={playbackRate}
-          aria-valuetext={`${t('speed')} ${playbackRate}`}
+        <div
+          className="AudioPlayer__ControlsRow AudioPlayer__ControlsRow--speed"
+          role="group"
+          aria-label={t('speed')}
         >
           <button
             className="AudioPlayer__Control"
@@ -143,7 +141,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
           >
             <FaMinus />
           </button>
-          <div className="AudioPlayer__SpeedText">
+          <div className="AudioPlayer__SpeedText" aria-live="polite">
             <span>{t('speed')}</span>
             <strong>{playbackRate} x</strong>
           </div>
