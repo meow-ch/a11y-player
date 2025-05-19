@@ -90,46 +90,48 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
       <audio ref={audioRef} aria-label={title} preload="metadata" className="AudioPlayer__Audio" />
       <h2 className="AudioPlayer__Title">{title}</h2>
       <div className="AudioPlayer__Controls">
-        <div className="AudioPlayer__ControlsRow">
-          <button
-            className="AudioPlayer__Control"
-            onClick={() => moveToPrevNextSection("prev")}
-            aria-label={t('previousSection')}
-          >
-            <FaStepBackward />
-          </button>
-          <button
-            className="AudioPlayer__Control"
-            onClick={() => moveToPrevNextSection("next")}
-            aria-label={t('nextSection')}
-          >
-            <FaStepForward />
-          </button>
-        </div>
-        <div className="AudioPlayer__ControlsRow">
-          <button 
-            className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
-            onClick={togglePlayPause}
-            aria-label={playing ? t('pause') : t('play')}
-          >
-            {playing ? <FaPause/> : <FaPlay /> }
-          </button>
-        </div>
-        <div className="AudioPlayer__ControlsRow">
-          <button
-            className="AudioPlayer__Control AudioPlayer__Control--mirrored"
-            onClick={() => moveHeadAcrossBy(-30)}
-            aria-label={t('backward30Seconds')}
-          >
-            <TbReload />
-          </button>
-          <button
-            className="AudioPlayer__Control"
-            onClick={() => moveHeadAcrossBy(30)}
-            aria-label={t('forward30Seconds')}
-          >
-            <TbReload />
-          </button>
+        <div className="AudioPlayer__ControlColumns">
+          <div className="AudioPlayer__ControlsColumn">
+            <button
+              className="AudioPlayer__Control"
+              onClick={() => moveToPrevNextSection("prev")}
+              aria-label={t('previousSection')}
+            >
+              <FaStepBackward />
+            </button>
+            <button
+              className="AudioPlayer__Control AudioPlayer__Control--mirrored"
+              onClick={() => moveHeadAcrossBy(-30)}
+              aria-label={t('backward30Seconds')}
+            >
+              <TbReload />
+            </button>
+          </div>
+          <div className="AudioPlayer__ControlsColumn">
+            <button
+              className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
+              onClick={togglePlayPause}
+              aria-label={playing ? t('pause') : t('play')}
+            >
+              {playing ? <FaPause/> : <FaPlay /> }
+            </button>
+          </div>
+          <div className="AudioPlayer__ControlsColumn AudioPlayer__ControlsColumn--reverse">
+            <button
+              className="AudioPlayer__Control"
+              onClick={() => moveHeadAcrossBy(30)}
+              aria-label={t('forward30Seconds')}
+            >
+              <TbReload />
+            </button>
+            <button
+              className="AudioPlayer__Control"
+              onClick={() => moveToPrevNextSection("next")}
+              aria-label={t('nextSection')}
+            >
+              <FaStepForward />
+            </button>
+          </div>
         </div>
         <div
           className="AudioPlayer__ControlsRow AudioPlayer__ControlsRow--speed"
