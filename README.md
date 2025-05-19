@@ -170,6 +170,10 @@ The DAISY Player requires a backend server that hosts DAISY format books with th
 - **I**: Toggle section list view
 - **Escape**: Close section list view (when open)
 
+Keyboard shortcuts are only active when the player container (or any of its
+controls) has keyboard focus. Use the **Tab** key or click on the player to
+focus it before using these shortcuts.
+
 ## Accessibility
 
 This player is designed with accessibility as a primary concern:

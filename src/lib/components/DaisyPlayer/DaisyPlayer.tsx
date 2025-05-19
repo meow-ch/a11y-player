@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useSectionsAudioPlayer from '../../hooks/useSectionsAudioPlayer';
 import SectionList from '../SectionList/SectionList';
 import useSectionData from '../../hooks/useSectionData';
@@ -25,6 +25,7 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
   language = 'en'
 }) => {
   const t = createTranslator(language);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { sectionsHolder, bookInfo } = useSectionData(dirUrl);
   const {
     audioRef,
@@ -77,7 +78,7 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
 
   const playerKeyBindingsPrevented = currentView !== "playerView";
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
       case 'i':
         event.preventDefault();
@@ -93,15 +94,14 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
     }
   }, [toggleView, playerKeyBindingsPrevented]);
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
 
   return (
-    <div className={`DaisyPlayer__Container ${className}`}>
+    <div
+      className={`DaisyPlayer__Container ${className}`}
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <div className="DaisyPlayer__OtherButtons">
         <ShareLinkButton
           dirUrl={appUrl}

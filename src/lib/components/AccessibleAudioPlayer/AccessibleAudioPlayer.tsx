@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FaPlay, FaPause, FaStepBackward, FaStepForward, FaPlus, FaMinus } from 'react-icons/fa';
 import { TbReload } from 'react-icons/tb';
 import { createTranslator } from '../../utils/i18n';
@@ -32,6 +32,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
   language = 'en'
 }) => {
   const t = createTranslator(language);
+  const playerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
     setProgress((currentTime / audio.duration) * 100 || 0);
   }, [currentTime, audioRef]);
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isDisplayed) return;
     switch (event.key) {
       case 'k':
@@ -67,14 +68,8 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
         setPlaybackRate(playbackRate - 0.1);
         break;
     }
-  }, [isDisplayed, setPlaybackRate, moveHeadAcrossBy, togglePlayPause]);
+  }, [isDisplayed, setPlaybackRate, moveHeadAcrossBy, togglePlayPause, playbackRate]);
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
 
   useEffect(() => {
     if (!isDisplayed) return;
@@ -84,7 +79,14 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
   }, [isDisplayed]);
 
   return (
-    <div className="AudioPlayer" role="region" aria-label={t('audioPlayer')}>
+    <div
+      className="AudioPlayer"
+      role="region"
+      aria-label={t('audioPlayer')}
+      ref={playerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <audio ref={audioRef} aria-label={title} preload="metadata" className="AudioPlayer__Audio" />
       <h2 className="AudioPlayer__Title">{title}</h2>
       <div className="AudioPlayer__Controls">
