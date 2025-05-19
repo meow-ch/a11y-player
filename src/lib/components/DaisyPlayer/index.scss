@@ -63,7 +63,7 @@
   &__Container {
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 50rem;
     margin: 0 auto;
     padding: var(--a11y-player-spacing-lg);
     background-color: var(--a11y-player-bg-main);
@@ -78,9 +78,14 @@
     border: 1px solid var(--a11y-player-border);
 
     // Responsive adjustments
-    @media (max-width: 768px) {
+    @media (max-width: 48rem) {
       padding: var(--a11y-player-spacing-md);
       border-radius: var(--a11y-player-radius-md);
+    }
+
+    @media (max-width: 30rem) {
+      padding: var(--a11y-player-spacing-sm);
+      border-radius: var(--a11y-player-radius-sm);
     }
 
     // Subtle hover effect for the entire container
@@ -101,8 +106,11 @@
       margin-bottom: var(--a11y-player-spacing-sm);
       color: var(--a11y-player-text-primary);
 
-      @media (max-width: 768px) {
+      @media (max-width: 48rem) {
         font-size: 1.5rem;
+      }
+      @media (max-width: 30rem) {
+        font-size: 1.25rem;
       }
     }
 
@@ -112,9 +120,13 @@
       margin-bottom: var(--a11y-player-spacing-lg);
       color: var(--a11y-player-text-secondary);
 
-      @media (max-width: 768px) {
+      @media (max-width: 48rem) {
         font-size: 1rem;
         margin-bottom: var(--a11y-player-spacing-md);
+      }
+      @media (max-width: 30rem) {
+        font-size: 0.9rem;
+        margin-bottom: var(--a11y-player-spacing-sm);
       }
     }
   }
@@ -202,7 +214,7 @@
   }
 
   &__Progress {
-    height: 8px;
+    height: 0.5rem;
     border-radius: var(--a11y-player-radius-full);
     background-color: var(--a11y-player-progress-bg);
     overflow: hidden;

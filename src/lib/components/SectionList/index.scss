@@ -31,19 +31,32 @@
     position: absolute;
     top: var(--a11y-player-spacing-lg);
     right: var(--a11y-player-spacing-lg);
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
   }
 
+  @media (max-width: 30rem) {
+    &__Container {
+      padding: var(--a11y-player-spacing-md);
+    }
+
+    &__BackArrow {
+      top: var(--a11y-player-spacing-md);
+      right: var(--a11y-player-spacing-md);
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
   &__List {
     text-align: left;
     margin: var(--a11y-player-spacing-sm) 0;
     width: 100%;
-    max-width: 600px;
+    max-width: 37.5rem;
     padding-left: var(--a11y-player-spacing-md);
 
     &--level0 {
