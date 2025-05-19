@@ -4,7 +4,7 @@ import './App.css';
 import { DaisyPlayerWithRouter } from '../lib';
 
 function App() {
-  const dirUrl = import.meta.env.VITE_BASE_URL + '/some/dir';
+  const dirUrl = import.meta.env.VITE_BASE_URL + '/';
   const bookmarkRouteParamName = 'bookmark';
   const appUrl = import.meta.env.VITE_APP_URL;
 
