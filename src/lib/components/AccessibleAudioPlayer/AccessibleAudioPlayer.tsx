@@ -154,21 +154,19 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
           </button>
         </div>
       </div>
-      <div className="AudioPlayer__ProgressContainer">
-        <progress
-          className="AudioPlayer__Progress"
-          value={progress}
-          max="100"
-          aria-valuenow={progress}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        >
-          {progress}%
-        </progress>
-        <span className="AudioPlayer__Time" aria-live="off">
-          {Math.trunc(currentTime)} / {Math.round(audioRef.current.duration)} s
-        </span>
-      </div>
+        <div className="AudioPlayer__ProgressContainer">
+          <progress
+            className="AudioPlayer__Progress"
+            value={progress}
+            max="100"
+            aria-hidden="true"
+          >
+            {progress}%
+          </progress>
+          <span className="AudioPlayer__Time" aria-live="off">
+            {Math.trunc(currentTime)} / {Math.round(audioRef.current.duration)} s
+          </span>
+        </div>
     </div>
   );
 };
