@@ -62,6 +62,7 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
       }
     } else if (currentView === "playerView" && wasPlayingBeforeSwitch && !playing) {
       togglePlayPause();
+      setWasPlayingBeforeSwitch(false);
     }
   }, [currentView, playing, togglePlayPause, wasPlayingBeforeSwitch]);
 
