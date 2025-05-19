@@ -38,6 +38,33 @@
     width: 100%;
   }
 
+  @media (max-width: 30rem) {
+    &__ControlColumns {
+      flex-wrap: wrap;
+      gap: var(--a11y-player-spacing-sm);
+    }
+
+    &__ControlsColumn {
+      margin-bottom: var(--a11y-player-spacing-sm);
+    }
+
+    &__Control {
+      font-size: 1.5rem;
+      width: 2rem;
+      height: 2rem;
+
+      &--play-pause {
+        font-size: 2.5rem;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    &__SpeedText {
+      min-width: 4rem;
+    }
+  }
+
   &__ControlsColumn {
     display: flex;
     flex-direction: column;
@@ -83,7 +110,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 80px;
+    min-width: 5rem;
 
     span {
       font-size: 0.75rem;
@@ -102,16 +129,16 @@
     border-radius: var(--a11y-player-radius-md);
     cursor: pointer;
     font-size: 2rem;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 
     &--play-pause {
       font-size: 3rem;
-      width: 60px;
-      height: 60px;
+      width: 3.75rem;
+      height: 3.75rem;
     }
 
     &--mirrored {
@@ -121,7 +148,7 @@
 
   &__Progress {
     width: 100%;
-    height: 8px;
+    height: 0.5rem;
     appearance: none;
     border-radius: var(--a11y-player-radius-full);
     overflow: hidden;
