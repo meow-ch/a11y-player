@@ -68,12 +68,12 @@ const SectionList: React.FC<SectionListProps> = ({
 
   return (
     <div className={`Sections__Container Sections__Container--${isDisplayed ? "visible" : "hidden"}`}>
-      <div 
-        className="Sections__BackArrow" 
+      <div
+        className="Sections__BackArrow"
         onClick={toggleDisplay}
         role="button"
         aria-label="Close sections view"
-        tabIndex={0}
+        tabIndex={isDisplayed ? 0 : -1}
       >
         ←
       </div>
