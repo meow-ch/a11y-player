@@ -45,9 +45,8 @@
     gap: var(--a11y-player-spacing-md);
 
     &--play {
-      align-items: center;
+      justify-content: center;
     }
-
 
     &--reverse {
       flex-direction: column-reverse;
