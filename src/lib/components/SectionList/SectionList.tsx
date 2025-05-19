@@ -67,7 +67,11 @@ const SectionList: React.FC<SectionListProps> = ({
   );
 
   return (
-    <div className={`Sections__Container Sections__Container--${isDisplayed ? "visible" : "hidden"}`}>
+    <div
+      className={`Sections__Container Sections__Container--${isDisplayed ? "visible" : "hidden"}`}
+      aria-hidden={!isDisplayed}
+      hidden={!isDisplayed}
+    >
       <div
         className="Sections__BackArrow"
         onClick={toggleDisplay}
