@@ -78,6 +78,8 @@
     // Subtle inner border for depth
     border: 1px solid var(--a11y-player-border);
 
+    box-sizing: border-box;
+
     // Responsive adjustments
     @media (max-width: 48rem) {
       padding: var(--a11y-player-spacing-md);
