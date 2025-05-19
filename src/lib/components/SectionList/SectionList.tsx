@@ -38,8 +38,12 @@ const SectionList: React.FC<SectionListProps> = ({
   const renderSections = (
     sections: Section[],
     level: number,
+    display: boolean = false
   ) => (
-    <ul className={`Sections__List Sections__List--level${level}`}>{
+    <ul className={`Sections__List Sections__List--level${level}`}
+      aria-hidden={!display}
+      hidden={!display}
+    >{
       sections.map((section) => (
         <li key={section.smilFile}>
           <button
@@ -59,7 +63,7 @@ const SectionList: React.FC<SectionListProps> = ({
             {section.title}
           </button>
           {(section.children && (
-            renderSections(section.children, level + 1)
+            renderSections(section.children, level + 1, display)
           )) || null}
         </li>
       ))}
@@ -77,12 +81,12 @@ const SectionList: React.FC<SectionListProps> = ({
         onClick={toggleDisplay}
         role="button"
         aria-label="Close sections view"
-        tabIndex={isDisplayed ? 0 : -1}
+        tabIndex={isDisplayed ? 0 : undefined}
       >
         ←
       </div>
       <h2>{t('tableOfContents')}</h2>
-      {renderSections(sectionsHolder.tree, 0)}
+      {renderSections(sectionsHolder.tree, 0, isDisplayed)}
     </div>
   );
 };
