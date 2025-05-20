@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useSectionsAudioPlayer from '../../hooks/useSectionsAudioPlayer';
 import SectionList from '../SectionList/SectionList';
 import useSectionData from '../../hooks/useSectionData';
-import { FlatSection, flatFindBySmil } from '../../utils/sections';
+import { FlatSection } from '../../utils/sections';
 import ShareLinkButton from '../ShareLinkButton/ShareLinkButton';
 import AccessibleAudioPlayer from '../AccessibleAudioPlayer/AccessibleAudioPlayer';
 import { createTranslator } from '../../utils/i18n';
@@ -39,21 +39,12 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
     playbackRate,
     setPlaybackRate,
     currentTime
-  } = useSectionsAudioPlayer(dirUrl, sectionsHolder);
+  } = useSectionsAudioPlayer(dirUrl, sectionsHolder, initialBookmark);
 
   const [currentView, setCurrentView] = useState<'playerView' | 'sectionsView'>('playerView');
   const [wasPlayingBeforeSwitch, setWasPlayingBeforeSwitch] = useState(false);
 
-  useEffect(() => {
-    if (!sectionsHolder || sectionsHolder.flat.length <= 0) return;
-    if (initialBookmark) {
-      const [smilFile, position] = initialBookmark.split(':');
-      const section = flatFindBySmil(sectionsHolder.flat, smilFile);
-      if (section !== null) {
-        setAudioFor(section, false, parseFloat(position));
-      }
-    }
-  }, [sectionsHolder, initialBookmark, setAudioFor]);
+  // initial bookmark handled inside useSectionsAudioPlayer
 
   useEffect(() => {
     if (currentView === "sectionsView") {
