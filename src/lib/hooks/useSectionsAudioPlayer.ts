@@ -1,7 +1,11 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { FlatSection, SectionsHolder, flatGetNext, flatGetPrev, getFirst, getFirstSmil } from "../utils/sections";
 
-const useSectionsAudioPlayer = (dirUrl: string, sectionsHolder: SectionsHolder) => {
+const useSectionsAudioPlayer = (
+  dirUrl: string,
+  sectionsHolder: SectionsHolder,
+  initialBookmark?: string
+) => {
   const audioRef = useRef<HTMLAudioElement>(new Audio());
   const [currentSection, setCurrentSection] = useState<FlatSection | null>(null);
   const [requestedCurrentTime, setRequestedCurrentTime] = useState<number | null>(null);
@@ -49,8 +53,16 @@ const useSectionsAudioPlayer = (dirUrl: string, sectionsHolder: SectionsHolder) 
   useEffect(() => { // initialize
     const first = getFirst(sectionsHolder);
     if (!first) return;
+    if (initialBookmark) {
+      const [smilFile, pos] = initialBookmark.split(":");
+      const section = sectionsHolder.flat.find(s => s.smilFile === smilFile);
+      if (section) {
+        setAudioFor(section, false, parseFloat(pos));
+        return;
+      }
+    }
     setAudioFor(first, false, 0);
-  }, [sectionsHolder]);
+  }, [sectionsHolder, initialBookmark]);
 
   const moveToPrevNextSection = useCallback((prevNext: "prev" | "next", startAt: number = 0) => {
     if (currentSection === null) return;
