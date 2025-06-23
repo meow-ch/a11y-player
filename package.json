@@ -1,6 +1,6 @@
 {
   "name": "a11y-player",
-  "version": "0.1.13",
+  "version": "0.1.15",
   "description": "An accessible DAISY format audiobook player for React applications",
   "type": "module",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.1.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.1.0",
-    "react-router-dom": "^6.0.0 || ^7.6.0"
+    "react-router-dom": "^6.0.0 || ^7.6.2"
   },
   "dependencies": {
     "react-icons": "^5.5.0"
@@ -53,10 +53,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/a11y-player"
+    "url": "git+https://github.com/meow-ch/a11y-player.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/a11y-player/issues"
+    "url": "https://github.com/meow-ch/a11y-player/issues"
   },
-  "homepage": "https://github.com/yourusername/a11y-player#readme"
+  "homepage": "https://github.com/meow-ch/a11y-player#readme"
 }
