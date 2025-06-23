@@ -4,13 +4,16 @@ import { createTranslator } from '../../utils/i18n';
 import "./index.scss";
 
 interface ShareLinkButtonProps {
-  dirUrl: string;
+  appUrl: string;
+  /** URL Path to be appended to appUrl (used for final bookmark url) */
+  pathPrefix?: string;
   path: string | null;
   language?: string;
 }
 
 const ShareLinkButton: FC<ShareLinkButtonProps> = ({
-  dirUrl,
+  appUrl,
+  pathPrefix,
   path,
   language = 'en'
 }) => {
@@ -18,9 +21,10 @@ const ShareLinkButton: FC<ShareLinkButtonProps> = ({
   const [copySuccess, setCopySuccess] = useState<boolean | null>(null);
   const [copiedPath, setCopiedPath] = useState<string | null>(null);
 
+  console.log(appUrl, pathPrefix, path);
   const handleClick = async () => {
     try {
-      const urlToCopy = `${dirUrl}/${path}`;
+      const urlToCopy = `${appUrl}/${pathPrefix}/${path}`;
       await navigator.clipboard.writeText(urlToCopy);
       setCopySuccess(true);
       setCopiedPath(path);

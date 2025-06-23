@@ -12,6 +12,7 @@ import { FaList } from 'react-icons/fa';
 export type ComponentProps = {
   dirUrl: string;
   appUrl: string;
+  pathPrefix?: string;
   initialBookmark?: string;
   className?: string;
   language?: string;
@@ -20,6 +21,7 @@ export type ComponentProps = {
 const DaisyPlayer: React.FC<ComponentProps> = ({
   dirUrl,
   appUrl,
+  pathPrefix,
   initialBookmark,
   className = '',
   language = 'en'
@@ -85,7 +87,6 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
     }
   }, [toggleView, playerKeyBindingsPrevented]);
 
-
   return (
     <div
       className={`DaisyPlayer__Container ${className}`}
@@ -95,7 +96,8 @@ const DaisyPlayer: React.FC<ComponentProps> = ({
     >
       <div className="DaisyPlayer__OtherButtons">
         <ShareLinkButton
-          dirUrl={appUrl}
+          appUrl={appUrl}
+          pathPrefix={pathPrefix}
           path={lastKnownBookmark}
           language={language}
         />

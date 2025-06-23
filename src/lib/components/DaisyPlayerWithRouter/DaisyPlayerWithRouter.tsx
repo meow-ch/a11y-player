@@ -7,6 +7,8 @@ export interface ComponentProps {
   dirUrl: string;
   /** Application URL for sharing links (used for bookmark generation) */
   appUrl: string;
+  /** URL Path to be appended to appUrl (used for final bookmark url) */
+  pathPrefix?: string;
   /** URL parameter name to use for the bookmark (default: "bookmark") */
   bookmarkParam?: string;
   /** Language code (2 letters) for UI translations (default: "en") */
@@ -16,6 +18,7 @@ export interface ComponentProps {
 }
 
 const DaisyPlayerWithRouter: React.FC<ComponentProps> = ({
+  pathPrefix,
   bookmarkParam = 'bookmark',
   language = 'en',
   className = '',
@@ -25,9 +28,12 @@ const DaisyPlayerWithRouter: React.FC<ComponentProps> = ({
   const params = useParams<Record<string, string>>();
   const urlBookmark = params[bookmarkParam];
 
+  console.log(params);
+
   return (
     <DaisyPlayer
       initialBookmark={urlBookmark}
+      pathPrefix={pathPrefix}
       language={language}
       className={className}
       {...forwarded}

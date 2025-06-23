@@ -4,8 +4,9 @@ import './App.css';
 import { DaisyPlayerWithRouter } from '../lib';
 
 function App() {
-  const streamPath = "/unzipped/BBR_13812A100/5b6fc4a84eaac8041668e49658c981a5b4ee820afabc5e612bbf9fea541523bd/1747738070";
+  const streamPath = "/unzipped/BBR_13941A100/2d18d195354b74abe12a4f54696991b68fcf069e0e90c4f0ebe3ddd7e97aec56/1750769170";
   const dirUrl = `${import.meta.env.VITE_BASE_URL}${streamPath}`;
+  const pathPrefix = 'book/dede100';
   const bookmarkRouteParamName = 'bookmark';
   const appUrl = import.meta.env.VITE_APP_URL;
 
@@ -13,12 +14,13 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path={`/:${bookmarkRouteParamName}?`}
+          path={`${pathPrefix}/:${bookmarkRouteParamName}?`}
           element={
             <DaisyPlayerWithRouter
               language='fr'
               dirUrl={dirUrl}
               appUrl={appUrl}
+              pathPrefix={pathPrefix}
               bookmarkParam={bookmarkRouteParamName}
             />
           }
