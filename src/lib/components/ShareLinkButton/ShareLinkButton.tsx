@@ -21,7 +21,6 @@ const ShareLinkButton: FC<ShareLinkButtonProps> = ({
   const [copySuccess, setCopySuccess] = useState<boolean | null>(null);
   const [copiedPath, setCopiedPath] = useState<string | null>(null);
 
-  console.log(appUrl, pathPrefix, path);
   const handleClick = async () => {
     try {
       const urlToCopy = `${appUrl}/${pathPrefix}/${path}`;

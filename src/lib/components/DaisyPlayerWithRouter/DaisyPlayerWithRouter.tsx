@@ -51,7 +51,6 @@ const DaisyPlayerWithRouter = forwardRef<DaisyPlayerRef, ComponentProps>((
   const params = useParams<Record<string, string>>();
   const urlBookmark = params[bookmarkParam];
 
-  console.log(params);
 
   return (
     <DaisyPlayer

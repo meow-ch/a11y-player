@@ -154,7 +154,6 @@ export const getTranslations = (lang: string): Translations => {
   const normalizedLang = lang.toLowerCase().substring(0, 2) as SupportedLanguage;
   
   if (!translations[normalizedLang]) {
-    console.log(`Language '${lang}' is not supported. Using English as fallback.`);
     return translations.en;
   }
   
