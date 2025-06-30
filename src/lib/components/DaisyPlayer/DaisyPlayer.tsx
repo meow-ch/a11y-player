@@ -80,15 +80,24 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
   const [wasPlayingBeforeSwitch, setWasPlayingBeforeSwitch] = useState(false);
   const [lastBookmark, setLastBookmark] = useState<string>('');
   const timeUpdateIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const onTimeUpdateRef = useRef(onTimeUpdate);
+  const lastTimeUpdateCall = useRef<number>(0);
+
+  // Keep ref up to date
+  useEffect(() => {
+    onTimeUpdateRef.current = onTimeUpdate;
+  }, [onTimeUpdate]);
 
   // initial bookmark handled inside useSectionsAudioPlayer
 
-  // Handle time update callbacks
+  // Handle time update callbacks with interval
   useEffect(() => {
-    if (!onTimeUpdate) return;
+    if (!onTimeUpdateRef.current) return;
 
     const handleTimeUpdate = () => {
-      onTimeUpdate(currentTime, lastKnownBookmark, playing);
+      if (onTimeUpdateRef.current) {
+        onTimeUpdateRef.current(currentTime, lastKnownBookmark, playing);
+      }
     };
 
     if (timeUpdateIntervalRef.current) {
@@ -102,7 +111,18 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
         clearInterval(timeUpdateIntervalRef.current);
       }
     };
-  }, [onTimeUpdate, currentTime, lastKnownBookmark, playing, timeUpdateInterval]);
+  }, [timeUpdateInterval]);
+
+  // Handle immediate time updates (throttled to avoid excessive calls)
+  useEffect(() => {
+    if (!onTimeUpdateRef.current) return;
+    
+    const now = Date.now();
+    if (now - lastTimeUpdateCall.current >= Math.min(timeUpdateInterval, 1000)) {
+      onTimeUpdateRef.current(currentTime, lastKnownBookmark, playing);
+      lastTimeUpdateCall.current = now;
+    }
+  }, [currentTime, lastKnownBookmark, playing, timeUpdateInterval]);
 
   // Handle bookmark change callbacks
   useEffect(() => {
