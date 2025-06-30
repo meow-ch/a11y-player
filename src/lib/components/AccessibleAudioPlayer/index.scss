@@ -105,8 +105,8 @@
   &__ControlsRow {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    gap: var(--a11y-player-spacing-md);
+    justify-content: center;
+    gap: 0;
 
     &--speed {
       margin-top: var(--a11y-player-spacing-sm);
