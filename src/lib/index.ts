@@ -4,7 +4,7 @@ export { default as DaisyPlayerWithRouter } from './components/DaisyPlayerWithRo
 
 // Export types
 export type { Section, FlatSection, SectionsHolder } from './utils/sections';
-export type { ComponentProps as DaisyPlayerProps } from './components/DaisyPlayer/DaisyPlayer';
+export type { ComponentProps as DaisyPlayerProps, DaisyPlayerRef } from './components/DaisyPlayer/DaisyPlayer';
 export type { ComponentProps as DaisyPlayerWithRouterProps } from './components/DaisyPlayerWithRouter/DaisyPlayerWithRouter';
 export type { SupportedLanguage, TranslationKey, Translations } from './utils/i18n';
 

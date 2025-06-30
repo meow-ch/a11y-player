@@ -35,6 +35,9 @@ function App() {
 - **Section Navigation**: Browse and jump to different sections of the audiobook
 - **Playback Controls**: Play/pause, skip forward/backward, adjust playback speed
 - **Bookmark Sharing**: Generate and share links to specific positions in the audiobook
+- **Real-time Callbacks**: Time updates, bookmark changes, and playback state monitoring
+- **Programmatic Control**: Full API access via ref interface
+- **Event Handling**: Play, pause, and seek event callbacks
 - **Responsive Design**: Works on various screen sizes and devices
 - **React Router Integration**: Built-in component for URL bookmark parameters
 
@@ -51,8 +54,33 @@ The core player component.
 | `dirUrl` | string | Base URL for the DAISY book files | Yes |
 | `appUrl` | string | Application URL for sharing links | Yes |
 | `initialBookmark` | string | Initial bookmark position (format: "smilFile:timeInSeconds") | No |
-| `onBookmarkChange` | function | Callback when bookmark changes | No |
 | `className` | string | Custom class name for the container | No |
+| `language` | string | UI language code (default: 'en') | No |
+| `pathPrefix` | string | Path prefix for bookmark URLs | No |
+
+#### Callback Props
+
+| Prop | Type | Description | Required |
+|------|------|-------------|----------|
+| `onTimeUpdate` | `(currentTime: number, bookmark: string, isPlaying: boolean) => void` | Called at regular intervals during playback | No |
+| `timeUpdateInterval` | number | Time update interval in milliseconds (default: 1000) | No |
+| `onBookmarkChange` | `(bookmark: string) => void` | Called when bookmark position changes | No |
+| `onPlaybackStateChange` | `(state: PlaybackState) => void` | Called when playback state changes | No |
+| `onPlay` | `() => void` | Called when playback starts | No |
+| `onPause` | `() => void` | Called when playback pauses | No |
+| `onSeek` | `(bookmark: string) => void` | Called when seeking to a new position | No |
+
+#### PlaybackState Interface
+
+```typescript
+interface PlaybackState {
+  currentTime: number;
+  duration: number;
+  isPlaying: boolean;
+  currentBookmark: string;
+  playbackRate: number;
+}
+```
 
 ### DaisyPlayerWithRouter
 
@@ -60,13 +88,27 @@ A wrapper around DaisyPlayer that automatically reads the initial bookmark from 
 
 #### Props
 
+Inherits all props from `DaisyPlayer` plus:
+
 | Prop | Type | Description | Required |
 |------|------|-------------|----------|
-| `dirUrl` | string | Base URL for the DAISY book files | Yes |
-| `appUrl` | string | Application URL for sharing links | Yes |
 | `bookmarkParam` | string | URL parameter name to use for the bookmark (default: "bookmark") | No |
-| `className` | string | Custom class name for the container | No |
-| `onBookmarkChange` | function | Additional callback when bookmark changes | No |
+
+### DaisyPlayerRef Interface
+
+For programmatic control, use a ref to access these methods:
+
+```typescript
+interface DaisyPlayerRef {
+  getCurrentTime(): number;
+  getDuration(): number;
+  isPlaying(): boolean;
+  getCurrentBookmark(): string;
+  getPlaybackRate(): number;
+  togglePlayPause(): void;
+  seek(bookmark: string): void;
+}
+```
 
 ## Usage Examples
 
@@ -142,6 +184,106 @@ function MyPlayer() {
 }
 ```
 
+### With Time Updates and Auto-Save
+
+```jsx
+import { useState, useCallback } from 'react';
+import { DaisyPlayer } from 'a11y-player';
+
+function AutoSavePlayer() {
+  const [lastSaved, setLastSaved] = useState(null);
+
+  const handleTimeUpdate = useCallback((currentTime, bookmark, isPlaying) => {
+    // Auto-save every 30 seconds during playback
+    if (isPlaying && currentTime % 30 === 0) {
+      localStorage.setItem('autoSaveBookmark', bookmark);
+      setLastSaved(new Date().toLocaleTimeString());
+    }
+  }, []);
+
+  return (
+    <>
+      <DaisyPlayer
+        dirUrl="https://example.com/daisy-books/book1"
+        appUrl="https://myapp.com"
+        onTimeUpdate={handleTimeUpdate}
+        timeUpdateInterval={1000} // Check every second
+        onPlaybackStateChange={(state) => {
+          console.log('Playback state:', state);
+        }}
+      />
+      {lastSaved && <p>Last auto-saved: {lastSaved}</p>}
+    </>
+  );
+}
+```
+
+### With Programmatic Control
+
+```jsx
+import { useRef } from 'react';
+import { DaisyPlayer, DaisyPlayerRef } from 'a11y-player';
+
+function ControlledPlayer() {
+  const playerRef = useRef<DaisyPlayerRef>(null);
+
+  const handleJumpToChapter = (chapterBookmark) => {
+    playerRef.current?.seek(chapterBookmark);
+  };
+
+  const handleTogglePlayback = () => {
+    playerRef.current?.togglePlayPause();
+  };
+
+  const getCurrentInfo = () => {
+    const currentTime = playerRef.current?.getCurrentTime();
+    const bookmark = playerRef.current?.getCurrentBookmark();
+    console.log(`Current time: ${currentTime}, Bookmark: ${bookmark}`);
+  };
+
+  return (
+    <>
+      <DaisyPlayer
+        ref={playerRef}
+        dirUrl="https://example.com/daisy-books/book1"
+        appUrl="https://myapp.com"
+      />
+      <div>
+        <button onClick={handleTogglePlayback}>Toggle Play/Pause</button>
+        <button onClick={getCurrentInfo}>Get Current Info</button>
+        <button onClick={() => handleJumpToChapter('chapter1.smil:0')}>Jump to Chapter 1</button>
+      </div>
+    </>
+  );
+}
+```
+
+### With Event Callbacks
+
+```jsx
+import { DaisyPlayer } from 'a11y-player';
+
+function EventAwarePlayer() {
+  return (
+    <DaisyPlayer
+      dirUrl="https://example.com/daisy-books/book1"
+      appUrl="https://myapp.com"
+      onPlay={() => console.log('Playback started')}
+      onPause={() => console.log('Playback paused')}
+      onSeek={(bookmark) => console.log('Seeked to:', bookmark)}
+      onBookmarkChange={(bookmark) => {
+        // Send to analytics or save to database
+        fetch('/api/progress', {
+          method: 'POST',
+          body: JSON.stringify({ bookmark }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }}
+    />
+  );
+}
+```
+
 ## DAISY Format Requirements
 
 The DAISY Player requires a backend server that hosts DAISY format books with the following specifications:
@@ -207,6 +349,65 @@ This player is designed with accessibility as a primary concern:
 ```
 npm run build
 ```
+
+## API Reference
+
+### Types
+
+```typescript
+// Main component props
+export interface DaisyPlayerProps {
+  dirUrl: string;
+  appUrl: string;
+  pathPrefix?: string;
+  initialBookmark?: string;
+  className?: string;
+  language?: string;
+  onTimeUpdate?: (currentTime: number, bookmark: string, isPlaying: boolean) => void;
+  timeUpdateInterval?: number;
+  onBookmarkChange?: (bookmark: string) => void;
+  onPlaybackStateChange?: (state: PlaybackState) => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  onSeek?: (bookmark: string) => void;
+}
+
+// Router component props
+export interface DaisyPlayerWithRouterProps extends DaisyPlayerProps {
+  bookmarkParam?: string;
+}
+
+// Ref interface for programmatic control
+export interface DaisyPlayerRef {
+  getCurrentTime(): number;
+  getDuration(): number;
+  isPlaying(): boolean;
+  getCurrentBookmark(): string;
+  getPlaybackRate(): number;
+  togglePlayPause(): void;
+  seek(bookmark: string): void;
+}
+
+// Playback state structure
+interface PlaybackState {
+  currentTime: number;
+  duration: number;
+  isPlaying: boolean;
+  currentBookmark: string; // Format: "smilFile:timeInSeconds"
+  playbackRate: number;
+}
+```
+
+## Changelog
+
+### v0.2.0
+- Added `onTimeUpdate` callback with configurable interval
+- Added `onPlaybackStateChange` callback for comprehensive state monitoring
+- Added `DaisyPlayerRef` interface for programmatic control
+- Added individual event callbacks: `onPlay`, `onPause`, `onSeek`
+- Enhanced `onBookmarkChange` callback (now properly typed)
+- Added `ref` support to both `DaisyPlayer` and `DaisyPlayerWithRouter`
+- Improved TypeScript definitions and exports
 
 ## License
 
