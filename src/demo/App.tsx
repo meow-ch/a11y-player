@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+/// <reference types="vite/client" />
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import { DaisyPlayerWithRouter } from '../lib';
 
@@ -13,6 +13,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to={`/${pathPrefix}`} replace />} />
         <Route
           path={`${pathPrefix}/:${bookmarkRouteParamName}?`}
           element={
