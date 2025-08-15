@@ -63,13 +63,13 @@
       padding-left: 0;
     }
 
+    // Only apply list-style: none when explicitly set
     &--none {
       list-style: none;
     }
 
-    &--disc {
-      list-style: disc;
-    }
+    // When disc is set, use default browser nesting (disc → circle → square)
+    // No need to override since that's the browser default
 
     li {
       margin-bottom: var(--a11y-player-spacing-xs);
