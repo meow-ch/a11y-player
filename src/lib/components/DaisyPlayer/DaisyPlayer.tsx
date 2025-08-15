@@ -19,6 +19,21 @@ export interface DaisyPlayerRef {
   seek(bookmark: string): void;
 }
 
+export type CustomLabels = {
+  tocButton?: string;
+  tocCloseButton?: string;
+  playButton?: string;
+  pauseButton?: string;
+  previousSection?: string;
+  nextSection?: string;
+  backward30Seconds?: string;
+  forward30Seconds?: string;
+  speed?: string;
+  decreasePlaybackRate?: string;
+  increasePlaybackRate?: string;
+  tableOfContents?: string;
+};
+
 export type ComponentProps = {
   dirUrl: string;
   appUrl: string;
@@ -26,6 +41,8 @@ export type ComponentProps = {
   initialBookmark?: string;
   className?: string;
   language?: string;
+  listStyle?: 'disc' | 'none';
+  labels?: CustomLabels;
   onTimeUpdate?: (currentTime: number, bookmark: string, isPlaying: boolean) => void;
   timeUpdateInterval?: number;
   onBookmarkChange?: (bookmark: string) => void;
@@ -49,6 +66,8 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
     initialBookmark,
     className = '',
     language = 'en',
+    listStyle = 'disc',
+    labels,
     onTimeUpdate,
     timeUpdateInterval = 1000,
     onBookmarkChange,
@@ -237,8 +256,8 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
         <button
           className="DaisyPlayer__ToggleSectionsViewButton"
           onClick={toggleView}
-          aria-label={t('toggleSectionsView')}
-          title={t('toggleSectionsView')}
+          aria-label={labels?.tocButton || t('toggleSectionsView')}
+          title={labels?.tocButton || t('toggleSectionsView')}
         >
           <FaList />
         </button>
@@ -258,6 +277,7 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
           togglePlayPause={togglePlayPause}
           isDisplayed={!playerKeyBindingsPrevented}
           language={language}
+          labels={labels}
         />
       </div>
       <SectionList
@@ -267,6 +287,8 @@ const DaisyPlayer = forwardRef<DaisyPlayerRef, ComponentProps>((
         onSectionClick={handleSectionClick}
         currentSection={currentSection}
         language={language}
+        listStyle={listStyle}
+        labels={labels}
       />
     </div>
   );

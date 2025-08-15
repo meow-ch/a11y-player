@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FaPlay, FaPause, FaStepBackward, FaStepForward, FaPlus, FaMinus } from 'react-icons/fa';
 import { TbReload } from 'react-icons/tb';
 import { createTranslator } from '../../utils/i18n';
+import { CustomLabels } from '../DaisyPlayer/DaisyPlayer';
 import "./index.scss";
 
 interface ComponentProps {
@@ -16,6 +17,7 @@ interface ComponentProps {
   togglePlayPause: () => void;
   isDisplayed?: boolean;
   language?: string;
+  labels?: CustomLabels;
 }
 
 const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
@@ -29,7 +31,8 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
   playbackRate,
   setPlaybackRate,
   isDisplayed = true,
-  language = 'en'
+  language = 'en',
+  labels
 }) => {
   const t = createTranslator(language);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -95,14 +98,14 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
             <button
               className="AudioPlayer__Control"
               onClick={() => moveToPrevNextSection("prev")}
-              aria-label={t('previousSection')}
+              aria-label={labels?.previousSection || t('previousSection')}
             >
               <FaStepBackward />
             </button>
             <button
               className="AudioPlayer__Control AudioPlayer__Control--mirrored"
               onClick={() => moveHeadAcrossBy(-30)}
-              aria-label={t('backward30Seconds')}
+              aria-label={labels?.backward30Seconds || t('backward30Seconds')}
             >
               <TbReload />
             </button>
@@ -111,7 +114,7 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
             <button
               className={`AudioPlayer__Control AudioPlayer__Control--play-pause AudioPlayer__Control--${playing ? 'playing' : 'paused'}`}
               onClick={togglePlayPause}
-              aria-label={playing ? t('pause') : t('play')}
+              aria-label={playing ? (labels?.pauseButton || t('pause')) : (labels?.playButton || t('play'))}
             >
               {playing ? <FaPause/> : <FaPlay /> }
             </button>
@@ -120,14 +123,14 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
             <button
               className="AudioPlayer__Control"
               onClick={() => moveHeadAcrossBy(30)}
-              aria-label={t('forward30Seconds')}
+              aria-label={labels?.forward30Seconds || t('forward30Seconds')}
             >
               <TbReload />
             </button>
             <button
               className="AudioPlayer__Control"
               onClick={() => moveToPrevNextSection("next")}
-              aria-label={t('nextSection')}
+              aria-label={labels?.nextSection || t('nextSection')}
             >
               <FaStepForward />
             </button>
@@ -136,23 +139,23 @@ const AccessibleAudioPlayer: React.FC<ComponentProps> = ({
         <div
           className="AudioPlayer__ControlsRow AudioPlayer__ControlsRow--speed"
           role="group"
-          aria-label={t('speed')}
+          aria-label={labels?.speed || t('speed')}
         >
           <button
             className="AudioPlayer__Control"
             onClick={() => setPlaybackRate(playbackRate - 0.25)}
-            aria-label={`${t('decreasePlaybackRate')} ${playbackRate - 0.25}`}
+            aria-label={`${labels?.decreasePlaybackRate || t('decreasePlaybackRate')} ${playbackRate - 0.25}`}
           >
             <FaMinus />
           </button>
           <div className="AudioPlayer__SpeedText" aria-live="polite">
-            <span>{t('speed')}</span>
+            <span>{labels?.speed || t('speed')}</span>
             <strong>{playbackRate} x</strong>
           </div>
           <button
             className="AudioPlayer__Control"
             onClick={() => setPlaybackRate(playbackRate + 0.25)}
-            aria-label={`${t('increasePlaybackRate')} ${playbackRate + 0.25}`}
+            aria-label={`${labels?.increasePlaybackRate || t('increasePlaybackRate')} ${playbackRate + 0.25}`}
           >
             <FaPlus />
           </button>

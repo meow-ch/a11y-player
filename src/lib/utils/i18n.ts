@@ -11,6 +11,7 @@ export type TranslationKey =
   | 'decreasePlaybackRate'
   | 'increasePlaybackRate'
   | 'toggleSectionsView'
+  | 'closeSectionsView'
   | 'shareLink'
   | 'linkCopied'
   | 'failedToCopy'
@@ -38,7 +39,8 @@ const en: Translations = {
   speed: 'Speed',
   decreasePlaybackRate: 'Decrease playback rate',
   increasePlaybackRate: 'Increase playback rate',
-  toggleSectionsView: 'Toggle sections view',
+  toggleSectionsView: 'Table of contents',
+  closeSectionsView: 'Close table of contents',
   shareLink: 'Share link to current position',
   linkCopied: 'Link copied!',
   failedToCopy: 'Failed to copy',
@@ -60,7 +62,8 @@ const fr: Translations = {
   speed: 'Vitesse',
   decreasePlaybackRate: 'Diminuer la vitesse de lecture',
   increasePlaybackRate: 'Augmenter la vitesse de lecture',
-  toggleSectionsView: 'Afficher/Masquer les sections',
+  toggleSectionsView: 'Table des matières',
+  closeSectionsView: 'Fermer la table des matières',
   shareLink: 'Partager un lien vers la position actuelle',
   linkCopied: 'Lien copié !',
   failedToCopy: 'Échec de la copie',
@@ -82,7 +85,8 @@ const de: Translations = {
   speed: 'Geschwindigkeit',
   decreasePlaybackRate: 'Wiedergabegeschwindigkeit verringern',
   increasePlaybackRate: 'Wiedergabegeschwindigkeit erhöhen',
-  toggleSectionsView: 'Abschnittsansicht umschalten',
+  toggleSectionsView: 'Inhaltsverzeichnis',
+  closeSectionsView: 'Inhaltsverzeichnis schließen',
   shareLink: 'Link zur aktuellen Position teilen',
   linkCopied: 'Link kopiert!',
   failedToCopy: 'Kopieren fehlgeschlagen',
@@ -104,7 +108,8 @@ const it: Translations = {
   speed: 'Velocità',
   decreasePlaybackRate: 'Diminuisci velocità di riproduzione',
   increasePlaybackRate: 'Aumenta velocità di riproduzione',
-  toggleSectionsView: 'Attiva/disattiva vista sezioni',
+  toggleSectionsView: 'Indice',
+  closeSectionsView: 'Chiudi indice',
   shareLink: 'Condividi link alla posizione attuale',
   linkCopied: 'Link copiato!',
   failedToCopy: 'Copia fallita',
@@ -126,7 +131,8 @@ const es: Translations = {
   speed: 'Velocidad',
   decreasePlaybackRate: 'Disminuir velocidad de reproducción',
   increasePlaybackRate: 'Aumentar velocidad de reproducción',
-  toggleSectionsView: 'Alternar vista de secciones',
+  toggleSectionsView: 'Tabla de contenidos',
+  closeSectionsView: 'Cerrar tabla de contenidos',
   shareLink: 'Compartir enlace a la posición actual',
   linkCopied: '¡Enlace copiado!',
   failedToCopy: 'Error al copiar',

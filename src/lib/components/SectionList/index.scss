@@ -63,6 +63,14 @@
       padding-left: 0;
     }
 
+    &--none {
+      list-style: none;
+    }
+
+    &--disc {
+      list-style: disc;
+    }
+
     li {
       margin-bottom: var(--a11y-player-spacing-xs);
     }

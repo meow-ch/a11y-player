@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FlatSection, Section, SectionsHolder, flatFindBySmil } from '../../utils/sections';
 import { createTranslator } from '../../utils/i18n';
+import { CustomLabels } from '../DaisyPlayer/DaisyPlayer';
 import "./index.scss";
 
 interface SectionListProps {
@@ -10,6 +11,8 @@ interface SectionListProps {
   isDisplayed?: boolean;
   toggleDisplay: () => void;
   language?: string;
+  listStyle?: 'disc' | 'none';
+  labels?: CustomLabels;
 }
 
 const SectionList: React.FC<SectionListProps> = ({
@@ -18,11 +21,15 @@ const SectionList: React.FC<SectionListProps> = ({
   currentSection,
   toggleDisplay,
   isDisplayed = false,
-  language = 'en'
+  language = 'en',
+  listStyle = 'disc',
+  labels
 }) => {
   const t = createTranslator(language);
   const [focusedSection, setFocusedSection] = useState<FlatSection | null>(null);
   const paramSmilFile = currentSection?.smilFile || null;
+  const tocHeadingRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isDisplayed || focusedSection === currentSection) return;
@@ -35,12 +42,21 @@ const SectionList: React.FC<SectionListProps> = ({
     }
   }, [currentSection, isDisplayed]);
 
+  // Focus on TOC heading when opened
+  useEffect(() => {
+    if (isDisplayed && tocHeadingRef.current) {
+      setTimeout(() => {
+        tocHeadingRef.current?.focus();
+      }, 100);
+    }
+  }, [isDisplayed]);
+
   const renderSections = (
     sections: Section[],
     level: number,
     display: boolean = false
   ) => (
-    <ul className={`Sections__List Sections__List--level${level}`}
+    <ul className={`Sections__List Sections__List--level${level} Sections__List--${listStyle}`}
       aria-hidden={!display}
       hidden={!display}
     >{
@@ -72,20 +88,23 @@ const SectionList: React.FC<SectionListProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={`Sections__Container Sections__Container--${isDisplayed ? "visible" : "hidden"}`}
       aria-hidden={!isDisplayed}
       hidden={!isDisplayed}
+      role="dialog"
+      aria-labelledby="toc-heading"
     >
       <div
         className="Sections__BackArrow"
         onClick={toggleDisplay}
         role="button"
-        aria-label="Close sections view"
+        aria-label={labels?.tocCloseButton || t('closeSectionsView')}
         tabIndex={isDisplayed ? 0 : undefined}
       >
         ←
       </div>
-      <h2>{t('tableOfContents')}</h2>
+      <h2 id="toc-heading" ref={tocHeadingRef} tabIndex={-1}>{labels?.tableOfContents || t('tableOfContents')}</h2>
       {renderSections(sectionsHolder.tree, 0, isDisplayed)}
     </div>
   );
