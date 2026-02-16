@@ -64,6 +64,7 @@
     position: relative;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     height: 100%;
     margin: 0 auto;
     padding: var(--a11y-player-spacing-lg);
@@ -108,6 +109,8 @@
       font-weight: 600;
       margin-bottom: var(--a11y-player-spacing-sm);
       color: var(--a11y-player-text-primary);
+      overflow-wrap: anywhere;
+      word-break: break-word;
 
       @media (max-width: 48rem) {
         font-size: 1.5rem;
@@ -122,6 +125,8 @@
       font-weight: 500;
       margin-bottom: var(--a11y-player-spacing-lg);
       color: var(--a11y-player-text-secondary);
+      overflow-wrap: anywhere;
+      word-break: break-word;
 
       @media (max-width: 48rem) {
         font-size: 1rem;
@@ -140,6 +145,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     margin-bottom: var(--a11y-player-spacing-md);
 
     // Subtle separator below the header
@@ -179,6 +187,9 @@
     margin-top: var(--a11y-player-spacing-md);
     background-color: var(--a11y-player-bg-secondary);
     border-radius: var(--a11y-player-radius-md);
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     overflow: hidden;
     transition: all var(--a11y-player-transition-normal);
 

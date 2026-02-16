@@ -1,0 +1,7 @@
+<smil>
+  <body>
+    <seq>
+      <audio src="audio.mp3" clipBegin="npt=0s" clipEnd="npt=3s" />
+    </seq>
+  </body>
+</smil>

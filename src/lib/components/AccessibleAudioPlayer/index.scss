@@ -7,15 +7,20 @@
   align-items: center;
   font-size: 1rem;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
   &__Title {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     text-align: center;
     margin: var(--a11y-player-spacing-sm) 0 var(--a11y-player-spacing-md);
     padding: 0 var(--a11y-player-spacing-md);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
   }
 
   &__Audio {
@@ -24,6 +29,9 @@
 
   &__Controls {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,6 +44,9 @@
     justify-content: space-evenly;
     gap: var(--a11y-player-spacing-md);
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   @media (max-width: 30rem) {
@@ -95,6 +106,9 @@
 
   &__ProgressContainer {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,7 +120,11 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 0;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 
     &--speed {
       margin-top: var(--a11y-player-spacing-sm);

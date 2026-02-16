@@ -11,9 +11,13 @@
   ],
   "scripts": {
     "dev": "npm run build -- --watch & vite",
+    "dev:e2e": "vite --host 127.0.0.1 --port 4173",
     "build": "tsc && vite build",
     "prepare": "npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:install": "playwright install chromium"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.1.0",
@@ -24,6 +28,7 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
