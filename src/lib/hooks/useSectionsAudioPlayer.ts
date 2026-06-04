@@ -1,12 +1,23 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { FlatSection, SectionsHolder, flatGetNext, flatGetPrev, getFirst, getFirstSmil } from "../utils/sections";
 
+function isAbortError(error: unknown) {
+  return (
+    typeof error === "object"
+    && error !== null
+    && "name" in error
+    && (error as { name?: unknown }).name === "AbortError"
+  );
+}
+
 const useSectionsAudioPlayer = (
   dirUrl: string,
   sectionsHolder: SectionsHolder,
   initialBookmark?: string
 ) => {
   const audioRef = useRef<HTMLAudioElement>(new Audio());
+  const playRequestIdRef = useRef(0);
+  const sectionRequestIdRef = useRef(0);
   const [currentSection, setCurrentSection] = useState<FlatSection | null>(null);
   const [requestedCurrentTime, setRequestedCurrentTime] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -16,8 +27,29 @@ const useSectionsAudioPlayer = (
   const [loading, setLoading] = useState<boolean>(false);
   const audio = audioRef.current;
 
+  const cancelPendingPlayRequest = useCallback(() => {
+    playRequestIdRef.current += 1;
+  }, []);
+
+  const playAudio = useCallback(() => {
+    if (!audio) return;
+    const playRequestId = playRequestIdRef.current + 1;
+    playRequestIdRef.current = playRequestId;
+    const playPromise = audio.play();
+
+    if (playPromise === undefined) return;
+
+    playPromise.catch(error => {
+      if (playRequestId !== playRequestIdRef.current || isAbortError(error)) return;
+      console.error("Failed to play audio:", error);
+      setIsPlaying(false);
+    });
+  }, [audio]);
+
   const setAudioFor = (section: FlatSection | null, playImmediately: boolean, jumpToSecond: number = 0) => {
     if (!section) return;
+    const sectionRequestId = sectionRequestIdRef.current + 1;
+    sectionRequestIdRef.current = sectionRequestId;
     const setReactStateForWhenAudioWillBeLoaded = () => {
       setRequestedCurrentTime(jumpToSecond)
       setCurrentSection(section);
@@ -39,14 +71,18 @@ const useSectionsAudioPlayer = (
         const doc = parser.parseFromString(smil, 'application/xml');
         const audioSrc = doc.querySelector('audio')?.getAttribute('src');
 
+        if (sectionRequestId !== sectionRequestIdRef.current) return;
         if (!audioRef.current || !audioSrc) return;
         const audio = audioRef.current;
+        cancelPendingPlayRequest();
         audio.src = `${dirUrl}/${audioSrc}`;
         setReactStateForWhenAudioWillBeLoaded();
       })
       .catch(error => {
         console.error('Failed to fetch SMIL file:', error)
-        setLoading(false);
+        if (sectionRequestId === sectionRequestIdRef.current) {
+          setLoading(false);
+        }
       });
   };
 
@@ -154,9 +190,12 @@ const useSectionsAudioPlayer = (
 
   useEffect(() => { // play if supposed to be playing
     if (currentSection === null || !audio) return;
-    if (isPlaying && audio.paused) audio.play();
-    if (!isPlaying && !audio.paused) audio.pause();
-  }, [audio, currentSection, isPlaying]);
+    if (isPlaying && audio.paused) playAudio();
+    if (!isPlaying && !audio.paused) {
+      cancelPendingPlayRequest();
+      audio.pause();
+    }
+  }, [audio, currentSection, isPlaying, playAudio, cancelPendingPlayRequest]);
 
   useEffect(() => {
     if (currentSection === null || !audioRef.current) return;
